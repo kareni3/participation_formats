@@ -1,0 +1,74 @@
+{
+  "clarifyFormatsQuestions": [
+    {
+      "question": "What size of your company?",
+      "questionName": "sizeOfCompany",
+      "isFirstQuestion": true,
+      "questionNumber": 1,
+      "type": "radiobuttons",
+      "_comment": "radiobuttons - choice between options, number - input a number using the keyboard",
+      "answers": [
+        {
+          "label": "Small",
+          "nextQuestionNumber": null,
+          "_comment": "null - next on the list. N - N-th question. 'Finish' - it was last question"
+        },
+        {
+          "label": "Medium",
+          "nextQuestionNumber": null
+        },
+        {
+          "label": "Large",
+          "nextQuestionNumber": null
+        }
+      ]
+    },
+    {
+      "question": "Are your managers trained to lead and to introduce new participation practices?",
+      "questionName": "managersTrainedToLead",
+      "isFirstQuestion": false,
+      "questionNumber": 2,
+      "type": "radiobuttons",
+      "answers": [
+        {
+          "label": "Yes",
+          "nextQuestionNumber": 4
+        },
+        {
+          "label": "No",
+          "nextQuestionNumber": 3
+        }
+      ]
+    },
+    {
+      "question": "Do you have resources to train them?",
+      "questionName": "canYouTrainManagersToLead",
+      "isFirstQuestion": false,
+      "questionNumber": 3,
+      "type": "radiobuttons",
+      "answers": [
+        {
+          "label": "Yes",
+          "nextQuestionNumber": null
+        },
+        {
+          "label": "No",
+          "nextQuestionNumber": null
+        }
+      ]
+    },
+    {
+      "question": "How many employees are in your company",
+      "questionName": "numberOfEmployees",
+      "isFirstQuestion": false,
+      "questionNumber": 4,
+      "type": "number",
+      "answers": [
+        {
+          "label": "Input number of employees",
+          "nextQuestionNumber": null
+        }
+      ]
+    }
+  ]
+}

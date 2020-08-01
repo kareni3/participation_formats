@@ -1,0 +1,137 @@
+{
+  "participationFormatsList": {
+    "News Letters": {
+      "requirements": {
+        "_comment": "No requirements. See the example in Team Briefings"
+      },
+      "levels": [
+        {
+          "levelName": "Information Participation",
+          "weight": 1
+        },
+        {
+          "levelName": "Consultative Participation",
+          "weight": 0.8
+        },
+        {
+          "levelName": "Associative Participation",
+          "weight": 0.8
+        },
+        {
+          "levelName": "Administrative Participation",
+          "weight": 0.8
+        },
+        {
+          "levelName": "Decisive Participation",
+          "weight": 0.8
+        }
+      ]
+    },
+    "Notice Board": {
+      "requirements": {},
+      "levels": [
+        {
+          "levelName": "Information Participation",
+          "weight": 1
+        },
+        {
+          "levelName": "Consultative Participation",
+          "weight": 0.7
+        },
+        {
+          "levelName": "Associative Participation",
+          "weight": 0.7
+        },
+        {
+          "levelName": "Administrative Participation",
+          "weight": 0.7
+        },
+        {
+          "levelName": "Decisive Participation",
+          "weight": 0.7
+        }
+      ]
+    },
+    "General Assembly": {
+      "requirements": {},
+      "levels": [
+        {
+          "levelName": "Information Participation",
+          "weight": 1
+        },
+        {
+          "levelName": "Consultative Participation",
+          "weight": 0.7
+        },
+        {
+          "levelName": "Associative Participation",
+          "weight": 0.7
+        },
+        {
+          "levelName": "Administrative Participation",
+          "weight": 0.7
+        },
+        {
+          "levelName": "Decisive Participation",
+          "weight": 0.7
+        }
+      ]
+    },
+    "Consultation Committees": {
+      "requirements": {},
+      "levels": [
+        {
+          "levelName": "Consultative Participation",
+          "weight": 1
+        }
+      ]
+    },
+    "Employee Surveys": {
+      "requirements": {},
+      "levels": [
+        {
+          "levelName": "Consultative Participation",
+          "weight": 1
+        },
+        {
+          "levelName": "Associative Participation",
+          "weight": 0.7
+        },
+        {
+          "levelName": "Administrative Participation",
+          "weight": 0.7
+        },
+        {
+          "levelName": "Decisive Participation",
+          "weight": 0.7
+        }
+      ]
+    },
+    "Team Briefings": {
+      "requirements": {
+        "managersTrainedToLead": {
+          "type": "condition",
+          "data": {
+            "Yes": true,
+            "No": {
+              "canYouTrainManagersToLead": {
+                "Yes": true,
+                "No": false
+              }
+            }
+          }
+        },
+        "numberOfEmployees": {
+          "type": "range",
+          "data": [4, "Infinity"]
+        }
+      },
+      "levels": [
+        {
+          "levelName": "Associative Participation",
+          "weight": 0.7
+        }
+      ]
+    }
+  }
+}
