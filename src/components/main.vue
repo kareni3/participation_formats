@@ -180,6 +180,9 @@ export default {
                 ((answer && answer.nextQuestionNumber) ||
                   this.question.questionNumber + 1)
             );
+            if (this.requirementNames.has(this.question.questionName)) {
+              this.requirementNames.add(currentQuestion.questionName)
+            }
           } else if (this.question.type === "number") {
             currentQuestion = this.clarifyFormatsQuestions.find(
               (e) => e.questionNumber === this.question.questionNumber + 1
@@ -277,7 +280,7 @@ export default {
           Object.entries(levelsWeightsSum).forEach((el) => {
             res1[el[0]] = usedLevelsWeightsSum[el[0]] / el[1];
             res2[el[0]] = usedLevelsWeightsSum[el[0]] / max;
-            superRes[el[0]] = (res1[el[0]] + res2[el[0]]) || 0;
+            superRes[el[0]] = res1[el[0]] + res2[el[0]] || 0;
           });
           max = -Infinity;
           let sum = 0;
