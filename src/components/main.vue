@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" @keypress.enter="next()">
     <div class="container">
       <div class="content">
         <div class="question">
@@ -23,7 +23,18 @@
           </div>
           <div v-else-if="page === 3">
             <div class="title">{{question.text}}</div>
-            <div v-if="isFromats" class="label">{{question.label}}</div>
+            <div
+              @click="showLevelConfidence=!showLevelConfidence"
+              v-if="isFromats"
+              class="label"
+            >{{question.label}}</div>
+            <div class="confidence_container">
+              <div
+                v-show="showLevelConfidence"
+                v-for="el in Object.entries(levelConfidence)"
+                :key="el[0]"
+              >{{el[0]}} - {{el[1]}}%</div>
+            </div>
           </div>
           <div v-else-if="page === 4">
             <div class="title">{{question.text}}</div>
@@ -77,6 +88,13 @@
             <div>{{question.label1}}</div>
             <div>{{question.label2}}</div>
             <div>{{question.label3}}</div>
+            <br />
+            <div>If confidence is:</div>
+            <div>1) 80% - 100%, we recommend you to try the formats of the next level of employee's participation</div>
+            <div>2) 60% - 80%, we recommend you try the formats of the next level of employee's participation, but be prepared to take risks</div>
+            <div>3) 45% - 60%, we give you the right to choose to try them or not</div>
+            <div>4) 30% - 45%, we do not recommend you go to the next level (see 5)</div>
+            <div>5) 0% - 30%, stay on your level. If you want to increase employee engagement, then, first, spend resources for their training, for their job satisfaction, save up funds to move to the next level, be more ready and open for new.</div>
           </div>
         </div>
       </div>
@@ -119,6 +137,8 @@ export default {
       answersCheckbox: [],
       allLevelsNames: [],
       requirementNames: new Set(),
+      levelConfidence: {},
+      showLevelConfidence: false,
     };
   },
   props: [
@@ -257,15 +277,21 @@ export default {
           Object.entries(levelsWeightsSum).forEach((el) => {
             res1[el[0]] = usedLevelsWeightsSum[el[0]] / el[1];
             res2[el[0]] = usedLevelsWeightsSum[el[0]] / max;
-            superRes[el[0]] = res1[el[0]] + res2[el[0]];
+            superRes[el[0]] = (res1[el[0]] + res2[el[0]]) || 0;
           });
           max = -Infinity;
+          let sum = 0;
           let maxName = 0;
+          this.levelConfidence = {};
           Object.entries(superRes).forEach((el) => {
             if (el[1] > max) {
               max = el[1];
               maxName = el[0];
             }
+            sum += el[1];
+          });
+          Object.entries(superRes).forEach((el) => {
+            this.levelConfidence[el[0]] = ((el[1] / sum) * 100).toFixed();
           });
           this.question = {
             text: "Your current level of participation is",
@@ -392,11 +418,11 @@ export default {
         confidence = (confidence / weights) * 100;
         this.question = {
           text: "Our recommendation to you",
-          label1: "Try these formats (your level): " + str1,
-          label2: "Don't use these formats: " + str2,
+          label1: "Try these formats (your level): " + (str1 || "None"),
+          label2: "Don't use these formats: " + (str2 || "None"),
           label3:
             `Confidence - ${confidence.toFixed()}% -> Try these formats (next level): ` +
-            str3,
+            (str3 || "None"),
         };
       }
     },
@@ -481,8 +507,8 @@ export default {
   font-size: 1.2rem;
 }
 .content {
-  min-height: 85%;
-  margin-bottom: 10%;
+  min-height: calc(100% - 70px);
+  margin-bottom: 70px;
 }
 .action {
   display: flex;
@@ -493,7 +519,9 @@ export default {
   margin: auto;
 }
 .action_container {
-  height: 15%;
+  height: fit-content;
+  margin-top: 24px;
+  margin-bottom: 24px;
   position: absolute;
   bottom: 0;
   width: calc(100% - 48px);
@@ -549,6 +577,7 @@ input {
   font-size: 3rem;
   padding-top: 48px;
   color: #4169e1;
+  cursor: pointer;
 }
 .inp {
   width: 40%;
@@ -560,5 +589,11 @@ input {
 }
 .answer_content {
   padding: 25px 50px;
+}
+.confidence_container {
+  color: #00000060;
+  width: fit-content;
+  margin: auto;
+  padding-top: 12px;
 }
 </style>

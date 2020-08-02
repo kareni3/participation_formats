@@ -2,7 +2,7 @@
   "participationFormatsList": {
     "News Letters": {
       "requirements": {
-        "canYouAllocateResources": {
+        "canYouAllocateResourcesForNews": {
           "type": "condition",
           "data": {
             "Yes": true,
@@ -34,7 +34,15 @@
       ]
     },
     "Notice Board": {
-      "requirements": {},
+      "requirements": {
+        "canYouAllocateResourcesForBlog": {
+          "type": "condition",
+          "data": {
+            "Yes": true,
+            "No": false
+          }
+        }
+      },
       "levels": [
         {
           "levelName": "Information Participation",
@@ -59,7 +67,15 @@
       ]
     },
     "General Assembly": {
-      "requirements": {},
+      "requirements": {
+        "canYouAffordRoomForMeeting": {
+          "type": "condition",
+          "data": {
+            "Yes": true,
+            "No": false
+          }
+        }
+      },
       "levels": [
         {
           "levelName": "Information Participation",
@@ -84,7 +100,16 @@
       ]
     },
     "Consultation Committees": {
-      "requirements": {},
+      "requirements": {
+        "sizeOfCompany": {
+          "type": "condition",
+          "data": {
+            "Small": true,
+            "Medium": true,
+            "Large": false
+          }
+        }
+      },
       "levels": [
         {
           "levelName": "Consultative Participation",
@@ -93,7 +118,9 @@
       ]
     },
     "Employee Surveys": {
-      "requirements": {},
+      "requirements": {
+        "_comment": "ADD REQUIREMENTS"
+      },
       "levels": [
         {
           "levelName": "Consultative Participation",
@@ -110,6 +137,21 @@
         {
           "levelName": "Decisive Participation",
           "weight": 0.7
+        }
+      ]
+    },
+    "Working Groups": {
+      "requirements": {
+        "_comment": "ADD REQUIREMENTS"
+      },
+      "levels": [
+        {
+          "levelName": "Associative Participation",
+          "weight": 1
+        },
+        {
+          "levelName": "Administrative Participation",
+          "weight": 1
         }
       ]
     },
@@ -141,6 +183,66 @@
           "weight": 0.7
         }
       ]
+    },
+    "Quality Circles": {
+      "requirements": {
+        "_comment": "ADD REQUIREMENTS"
+      },
+      "levels": []
+    },
+    "Suggestion Schemes": {
+      "requirements": {
+        "_comment": "ADD REQUIREMENTS"
+      },
+      "levels": []
+    },
+    "Total Quality Management": {
+      "requirements": {
+        "_comment": "ADD REQUIREMENTS"
+      },
+      "levels": []
+    },
+    "Voting": {
+      "requirements": {
+        "_comment": "ADD REQUIREMENTS"
+      },
+      "levels": []
+    },
+    "Peer rating": {
+      "requirements": {
+        "_comment": "ADD REQUIREMENTS"
+      },
+      "levels": []
+    },
+    "Business games": {
+      "requirements": {
+        "_comment": "ADD REQUIREMENTS"
+      },
+      "levels": []
+    },
+    "Job redesign": {
+      "requirements": {
+        "_comment": "ADD REQUIREMENTS"
+      },
+      "levels": []
+    },
+    "Idea Campaigns": {
+      "requirements": {
+        "_comment": "ADD REQUIREMENTS"
+      },
+      "levels": []
+    },
+    "Autonomous work group": {
+      "requirements": {
+        "_comment": "ADD REQUIREMENTS"
+      },
+      "levels": []
+    },
+    "Team working": {
+      "requirements": {
+        "_comment": "ADD REQUIREMENTS"
+      },
+      "levels": []
     }
   }
 }

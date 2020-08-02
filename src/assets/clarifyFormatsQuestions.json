@@ -72,9 +72,43 @@
     },
     {
       "question": "Can you allocate resources for the mailing news?",
-      "questionName": "canYouAllocateResources",
+      "questionName": "canYouAllocateResourcesForNews",
       "isFirstQuestion": false,
       "questionNumber": 5,
+      "type": "radiobuttons",
+      "answers": [
+        {
+          "label": "Yes",
+          "nextQuestionNumber": null
+        },
+        {
+          "label": "No",
+          "nextQuestionNumber": null
+        }
+      ]
+    },
+    {
+      "question": "Can you allocate resources for the creation and maintenance of a company’s blog or bulletin board in the office?",
+      "questionName": "canYouAllocateResourcesForBlog",
+      "isFirstQuestion": false,
+      "questionNumber": 6,
+      "type": "radiobuttons",
+      "answers": [
+        {
+          "label": "Yes",
+          "nextQuestionNumber": null
+        },
+        {
+          "label": "No",
+          "nextQuestionNumber": null
+        }
+      ]
+    },
+    {
+      "question": "Can you afford 1) equipped room, which provides a place for presentation and for sitting 2) or equipment and a tool for online meetings?",
+      "questionName": "canYouAffordRoomForMeeting",
+      "isFirstQuestion": false,
+      "questionNumber": 7,
       "type": "radiobuttons",
       "answers": [
         {

@@ -50,6 +50,7 @@ body {
     position: absolute;
     box-shadow: -12px 10px 30px 5px #00000030;
     border-bottom: 1vh solid #4169e190;
+    margin-bottom: 120px;
 }
 .background {
     color: #4169e1;
