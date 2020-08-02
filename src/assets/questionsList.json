@@ -4,6 +4,14 @@
       "question": "What is the approximate average age of your employees?",
       "questionNumber": 1,
       "questionWeight": 0.5,
+      "questionLevelMultiplications": {
+        "_comment": "> 0 - add answerWeight (if N then answerWeight value M converts from M to M + ((1 - M) * N)",
+        "Information Participation": 0.2,
+        "Consultative Participation": 0.1,
+        "Associative Participation": 0,
+        "Administrative Participation": -0.05,
+        "Decisive Participation": -0.1
+      },
       "answers": [
         {
           "label": "18-25",
@@ -24,9 +32,16 @@
       ]
     },
     {
-      "question": "What is the education level of your workers?",
+      "question": "What is the education level of your employees?",
       "questionNumber": 2,
       "questionWeight": 0.7,
+      "questionLevelMultiplications": {
+        "Information Participation": 0.2,
+        "Consultative Participation": 0.1,
+        "Associative Participation": 0,
+        "Administrative Participation": -0.05,
+        "Decisive Participation": -0.1
+      },
       "answers": [
         {
           "label": "Without education",
@@ -47,28 +62,281 @@
       ]
     },
     {
-      "question": "how willing are you to experiment (take risks)?",
+      "question": "What kind of workers are you going to involve?",
       "questionNumber": 3,
+      "questionWeight": 0.7,
+      "questionLevelMultiplications": {
+        "Information Participation": 0.2,
+        "Consultative Participation": 0.1,
+        "Associative Participation": 0,
+        "Administrative Participation": -0.05,
+        "Decisive Participation": -0.1
+      },
+      "answers": [
+        {
+          "label": "Junior staff",
+          "answerWeight": 0
+        },
+        {
+          "label": "Middle managers",
+          "answerWeight": 0.5
+        },
+        {
+          "label": "Managers",
+          "answerWeight": 1
+        },
+        {
+          "label": "Junior staff + Middle managers",
+          "answerWeight": 0.25
+        },
+        {
+          "label": "Junior staff + Managers",
+          "answerWeight": 0.5
+        },
+        {
+          "label": "Middle managers + Managers",
+          "answerWeight": 0.75
+        },
+        {
+          "label": "All staff",
+          "answerWeight": 0.5
+        }
+      ]
+    },
+    {
+      "question": "How willing are you to experiment (take risks)?",
+      "questionNumber": 4,
       "questionWeight": 0.8,
+      "questionLevelMultiplications": {
+        "Information Participation": 0.2,
+        "Consultative Participation": 0.1,
+        "Associative Participation": 0,
+        "Administrative Participation": -0.05,
+        "Decisive Participation": -0.1
+      },
       "answers": [
         {
           "label": "Not ready at all",
           "answerWeight": 0
         },
         {
-          "label": "Rather not ready",
+          "label": "More unready than ready",
           "answerWeight": 0.25
         },
         {
-          "label": "Medium ready",
+          "label": "50/50",
           "answerWeight": 0.50
         },
         {
-          "label": "Rather ready",
+          "label": "More ready than not",
           "answerWeight": 0.75
         },
         {
           "label": "Completely ready",
+          "answerWeight": 1
+        }
+      ]
+    },
+    {
+      "question": "How willing are you to spend resources on increasing employee engagement?",
+      "questionNumber": 5,
+      "questionWeight": 0.9,
+      "questionLevelMultiplications": {
+        "Information Participation": 0.2,
+        "Consultative Participation": 0.1,
+        "Associative Participation": 0,
+        "Administrative Participation": -0.05,
+        "Decisive Participation": -0.1
+      },
+      "answers": [
+        {
+          "label": "Not ready at all",
+          "answerWeight": 0
+        },
+        {
+          "label": "More unready than ready",
+          "answerWeight": 0.25
+        },
+        {
+          "label": "50/50",
+          "answerWeight": 0.50
+        },
+        {
+          "label": "More ready than not",
+          "answerWeight": 0.75
+        },
+        {
+          "label": "Completely ready",
+          "answerWeight": 1
+        }
+      ]
+    },
+    {
+      "question": "Do you take care of continuous training and professional development of employees?",
+      "questionNumber": 6,
+      "questionWeight": 0.7,
+      "questionLevelMultiplications": {
+        "Information Participation": 0.2,
+        "Consultative Participation": 0.1,
+        "Associative Participation": 0,
+        "Administrative Participation": -0.05,
+        "Decisive Participation": -0.1
+      },
+      "answers": [
+        {
+          "label": "Absolutely not",
+          "answerWeight": 0
+        },
+        {
+          "label": "No",
+          "answerWeight": 0.25
+        },
+        {
+          "label": "50/50",
+          "answerWeight": 0.50
+        },
+        {
+          "label": "Yes",
+          "answerWeight": 0.75
+        },
+        {
+          "label": "Definitely yes",
+          "answerWeight": 1
+        }
+      ]
+    },
+    {
+      "question": "How willing are you to make time for staff training in the future?",
+      "questionNumber": 7,
+      "questionWeight": 0.7,
+      "questionLevelMultiplications": {
+        "Information Participation": 0.2,
+        "Consultative Participation": 0.1,
+        "Associative Participation": 0,
+        "Administrative Participation": -0.05,
+        "Decisive Participation": -0.1
+      },
+      "answers": [
+        {
+          "label": "Not ready at all",
+          "answerWeight": 0
+        },
+        {
+          "label": "More unready than ready",
+          "answerWeight": 0.25
+        },
+        {
+          "label": "50/50",
+          "answerWeight": 0.50
+        },
+        {
+          "label": "More ready than not",
+          "answerWeight": 0.75
+        },
+        {
+          "label": "Completely ready",
+          "answerWeight": 1
+        }
+      ]
+    },
+    {
+      "question": "How much do your workers involved in your company?",
+      "questionNumber": 8,
+      "questionWeight": 0.5,
+      "questionLevelMultiplications": {
+        "Information Participation": 0.2,
+        "Consultative Participation": 0.1,
+        "Associative Participation": 0,
+        "Administrative Participation": -0.05,
+        "Decisive Participation": -0.1
+      },
+      "answers": [
+        {
+          "label": "Not involved at all",
+          "answerWeight": 0
+        },
+        {
+          "label": "More not involved than involved",
+          "answerWeight": 0.25
+        },
+        {
+          "label": "50/50",
+          "answerWeight": 0.50
+        },
+        {
+          "label": "More involved than not",
+          "answerWeight": 0.75
+        },
+        {
+          "label": "Completely involved",
+          "answerWeight": 1
+        }
+      ]
+    },
+    {
+      "question": "How willing are your employees to get involved in the company?",
+      "questionNumber": 9,
+      "questionWeight": 0.8,
+      "questionLevelMultiplications": {
+        "Information Participation": 0.2,
+        "Consultative Participation": 0.1,
+        "Associative Participation": 0,
+        "Administrative Participation": -0.05,
+        "Decisive Participation": -0.1
+      },
+      "answers": [
+        {
+          "label": "They absolutely do not want to",
+          "answerWeight": 0
+        },
+        {
+          "label": "They are rather unwilling than willing",
+          "answerWeight": 0.25
+        },
+        {
+          "label": "50/50",
+          "answerWeight": 0.50
+        },
+        {
+          "label": "They are rather willing than unwilling",
+          "answerWeight": 0.75
+        },
+        {
+          "label": "They definitely want it",
+          "answerWeight": 1
+        }
+      ]
+    },
+    {
+      "question": "Can you see strong leadership among your employees?",
+      "questionNumber": 10,
+      "questionWeight": 0.6,
+      "questionLevelMultiplications": {
+        "Information Participation": 0.2,
+        "Consultative Participation": 0.1,
+        "Associative Participation": 0,
+        "Administrative Participation": -0.05,
+        "Decisive Participation": -0.1
+      },
+      "answers": [
+        {
+          "label": "Absolutely not",
+          "answerWeight": 0
+        },
+        {
+          "label": "No",
+          "answerWeight": 0.25
+        },
+        {
+          "label": "50/50",
+          "answerWeight": 0.50
+        },
+        {
+          "label": "Yes",
+          "answerWeight": 0.75
+        },
+        {
+          "label": "Definitely yes",
           "answerWeight": 1
         }
       ]

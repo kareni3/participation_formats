@@ -2,7 +2,13 @@
   "participationFormatsList": {
     "News Letters": {
       "requirements": {
-        "_comment": "No requirements. See the example in Team Briefings"
+        "canYouAllocateResources": {
+          "type": "condition",
+          "data": {
+            "Yes": true,
+            "No": false
+          }
+        }
       },
       "levels": [
         {
@@ -123,7 +129,10 @@
         },
         "numberOfEmployees": {
           "type": "range",
-          "data": [4, "Infinity"]
+          "data": [
+            4,
+            "Infinity"
+          ]
         }
       },
       "levels": [

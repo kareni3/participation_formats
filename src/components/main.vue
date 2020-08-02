@@ -5,7 +5,7 @@
         <div class="question">
           <div v-if="page === 1">
             <div class="title">{{question.text}}</div>
-            <div v-if="isFromats" class="formats">
+            <div v-if="isFromats" class="answer_content formats">
               <div v-for="(el,i) in question.formats" :key="el">
                 <input type="checkbox" v-model="usedFormatsCheckbox[i]" />
                 <span>{{el}}</span>
@@ -14,7 +14,7 @@
           </div>
           <div v-else-if="page === 2">
             <div class="title">{{question.text}}</div>
-            <div v-if="isFromats" class="formats">
+            <div v-if="isFromats" class="answer_content formats">
               <div v-for="(el,i) in question.formats" :key="el">
                 <input type="checkbox" v-model="valuelessFormatsCheckbox[i]" />
                 <span>{{el}}</span>
@@ -27,7 +27,7 @@
           </div>
           <div v-else-if="page === 4">
             <div class="title">{{question.text}}</div>
-            <div v-if="isFromats" class="formats">
+            <div v-if="isFromats" class="answer_content formats">
               <div v-for="(el,i) in question.levels" :key="el">
                 <input type="checkbox" @input="selectLevelsCheckbox(i)" v-model="levelsCheckbox[i]" />
                 <span>{{el}}</span>
@@ -36,7 +36,11 @@
           </div>
           <div v-else-if="page === 5">
             <div class="title">{{question.question}}</div>
-            <div v-if="isFromats" :class="question.type === 'number' ? 'inp' : 'formats'">
+            <div
+              v-if="isFromats"
+              class="answer_content"
+              :class="question.type === 'number' ? 'inp' : 'formats'"
+            >
               <div v-for="(el,i) in question.answers" :key="i">
                 <div v-if="question.type === 'radiobuttons'">
                   <input
@@ -55,7 +59,7 @@
           </div>
           <div v-else-if="page === 6">
             <div class="title">{{question.question}}</div>
-            <div v-if="isFromats" :class="'formats'">
+            <div v-if="isFromats" :class="'answer_content formats'">
               <div v-for="(el,i) in question.answers" :key="i">
                 <div>
                   <input
@@ -95,6 +99,7 @@ export default {
       question: null,
       isFromats: false,
       participationLevel: "",
+      nextParticipationLevel: "",
       usedFormatsCheckbox: [],
       usedFormats: [],
       UsedFormats: [],
@@ -113,6 +118,7 @@ export default {
       answer: null,
       answersCheckbox: [],
       allLevelsNames: [],
+      requirementNames: new Set(),
     };
   },
   props: [
@@ -135,32 +141,45 @@ export default {
     },
     questionNumber(v) {
       if (!v && v !== 0) return;
-      let currentQuestion = null;
-      if (v === 0) {
-        currentQuestion = this.clarifyFormatsQuestions.find(
-          (el) => el.isFirstQuestion
-        );
-      } else {
-        if (this.question.type === "radiobuttons") {
+      let isFirstQuestion = !v;
+      let check = true;
+      while (check) {
+        let currentQuestion = null;
+        if (isFirstQuestion) {
           currentQuestion = this.clarifyFormatsQuestions.find(
-            (e) =>
-              e.questionNumber ===
-              (this.question.answers.find((el) => el.label === this.answer)
-                .nextQuestionNumber || this.question.questionNumber + 1)
+            (el) => el.isFirstQuestion
           );
-        } else if (this.question.type === "number") {
-          currentQuestion = this.clarifyFormatsQuestions.find(
-            (e) => e.questionNumber === this.question.questionNumber + 1
-          );
+        } else {
+          if (this.question.type === "radiobuttons") {
+            let answer = this.question.answers.find(
+              (el) => el.label === this.answer
+            );
+            currentQuestion = this.clarifyFormatsQuestions.find(
+              (e) =>
+                e.questionNumber ===
+                ((answer && answer.nextQuestionNumber) ||
+                  this.question.questionNumber + 1)
+            );
+          } else if (this.question.type === "number") {
+            currentQuestion = this.clarifyFormatsQuestions.find(
+              (e) => e.questionNumber === this.question.questionNumber + 1
+            );
+          }
+          this.answer = null;
+          this.answersCheckbox = [];
         }
-        this.answer = null;
-        this.answersCheckbox = [];
-      }
-      if (currentQuestion) {
-        this.question = currentQuestion;
-      } else {
-        this.questionNumber1 = 0;
-        this.page++;
+        if (currentQuestion) {
+          this.question = currentQuestion;
+          if (this.requirementNames.has(currentQuestion.questionName)) {
+            check = false;
+          } else {
+            isFirstQuestion = false;
+          }
+        } else {
+          this.questionNumber1 = 0;
+          this.page++;
+          check = false;
+        }
       }
     },
     questionNumber1(v) {
@@ -283,13 +302,23 @@ export default {
           if (typeof obj[this.clarifyFormatsAnswers[name]] === "boolean") {
             return obj[this.clarifyFormatsAnswers[name]];
           } else {
-            let newname = Object.keys(obj[this.clarifyFormatsAnswers[name]])[0]
-            let newobj = obj[this.clarifyFormatsAnswers[name]][newname]
+            let newname = Object.keys(obj[this.clarifyFormatsAnswers[name]])[0];
+            let newobj = obj[this.clarifyFormatsAnswers[name]][newname];
             return rec(newobj, newname);
           }
         };
         Object.entries(this.participationFormatsList).forEach(
           (participationFormat) => {
+            if (this.usedFormats.includes(participationFormat[0])) return;
+            if (
+              !participationFormat[1].levels.find(
+                (e) =>
+                  e.levelName === this.participationLevel ||
+                  e.levelName === this.nextParticipationLevel
+              )
+            ) {
+              return;
+            }
             Object.entries(participationFormat[1].requirements).forEach(
               (requirement) => {
                 if (requirement[1].type === "range") {
@@ -333,11 +362,9 @@ export default {
         });
         str2 = str2.slice(0, -2);
         let str3 = "";
-        let index = this.allLevelsNames.indexOf(this.participationLevel);
-        const nextLevel = this.allLevelsNames[1 + index];
         Object.entries(this.participationFormatsList).forEach((el) => {
           const participationLevel = el[1].levels.find(
-            (e) => e.levelName === nextLevel
+            (e) => e.levelName === this.nextParticipationLevel
           );
           if (
             participationLevel &&
@@ -352,9 +379,14 @@ export default {
         let confidence = 0;
         let weights = 0;
         Object.values(this.questionsList).forEach((el, i) => {
+          const answer = el.answers.find(
+            (e) => this.questionsListAnswers[i] === e.label
+          );
           confidence +=
-            el.answers.find((e) => this.questionsListAnswers[i] === e.label)
-              .answerWeight * el.questionWeight;
+            (answer.answerWeight +
+              (1 - answer.answerWeight) *
+                el.questionLevelMultiplications[this.nextParticipationLevel]) *
+            el.questionWeight; // M + ((1 - M) * N)
           weights += el.questionWeight;
         });
         confidence = (confidence / weights) * 100;
@@ -392,6 +424,25 @@ export default {
         this.questionNumber = 0;
         this.scipName = "";
         this.nextName = "NEXT";
+        this.requirementNames = new Set();
+        const index = this.allLevelsNames.indexOf(this.participationLevel);
+        this.nextParticipationLevel = this.allLevelsNames[1 + index];
+        Object.entries(this.participationFormatsList).forEach((el) => {
+          if (this.usedFormats.includes(el[0])) return;
+          if (
+            !el[1].levels.find(
+              (e) =>
+                e.levelName === this.participationLevel ||
+                e.levelName === this.nextParticipationLevel
+            )
+          ) {
+            return;
+          }
+          this.requirementNames = new Set([
+            ...this.requirementNames,
+            ...Object.keys(el[1].requirements),
+          ]);
+        });
       } else if (this.page === 4) {
         this.page = 3;
       } else if (this.page === 5) {
@@ -429,13 +480,8 @@ export default {
   padding: 24px;
   font-size: 1.2rem;
 }
-.container {
-  /* position:inherit;
-  height: calc(100% - 48px);
-  width: calc(100% - 48px); */
-}
 .content {
-  min-height: 90%;
+  min-height: 85%;
   margin-bottom: 10%;
 }
 .action {
@@ -447,7 +493,7 @@ export default {
   margin: auto;
 }
 .action_container {
-  height: 10%;
+  height: 15%;
   position: absolute;
   bottom: 0;
   width: calc(100% - 48px);
@@ -474,6 +520,12 @@ export default {
   font-size: 2rem;
   text-align: center;
   margin-bottom: 48px;
+  background-color: #4169e1;
+  margin-left: -24px;
+  margin-right: -24px;
+  padding: 24px;
+  margin-top: -24px;
+  color: white;
 }
 input {
   transform: scale(1.5);
@@ -481,9 +533,11 @@ input {
 .formats {
   width: 30%;
   margin: auto;
+  width: fit-content;
 }
 .formats > div {
-  margin-bottom: 6px;
+  margin-bottom: 12px;
+  width: fit-content;
   display: flex;
 }
 .formats span {
@@ -503,5 +557,8 @@ input {
 .inp input {
   transform: scale(1.5) translate(20%, 0);
   width: 70px;
+}
+.answer_content {
+  padding: 25px 50px;
 }
 </style>
