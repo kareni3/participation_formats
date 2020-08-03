@@ -28,6 +28,7 @@
               v-if="isFromats"
               class="label"
             >{{question.label}}</div>
+            <div class="level_description">{{levelDescription[question.label]}}</div>
             <div class="confidence_container">
               <div
                 v-show="showLevelConfidence"
@@ -85,16 +86,85 @@
           </div>
           <div v-else-if="page === 7">
             <div class="title">{{question.text}}</div>
-            <div>{{question.label1}}</div>
-            <div>{{question.label2}}</div>
-            <div>{{question.label3}}</div>
-            <br />
-            <div>If confidence is:</div>
-            <div>1) 80% - 100%, we recommend you to try the formats of the next level of employee's participation</div>
-            <div>2) 60% - 80%, we recommend you try the formats of the next level of employee's participation, but be prepared to take risks</div>
-            <div>3) 45% - 60%, we give you the right to choose to try them or not</div>
-            <div>4) 30% - 45%, we do not recommend you go to the next level (see 5)</div>
-            <div>5) 0% - 30%, stay on your level. If you want to increase employee engagement, then, first, spend resources for their training, for their job satisfaction, save up funds to move to the next level, be more ready and open for new.</div>
+            <div class="recommendation_container">
+              <div class="number">1</div>
+              <div class="recommendation_wrapper" v-if="question.curLevelFormats.length">
+                <div
+                  class="recommendation_format_label"
+                >You can try other participation formats of your level ({{participationLevel}}):</div>
+                <div class="recommendation_format" v-for="el in question.curLevelFormats" :key="el">
+                  <div>{{el}}</div>
+                </div>
+              </div>
+              <div class="recommendation_wrapper" v-else>
+                <div>None of participation formats for your level ({{participationLevel}}) we can recommend.</div>
+                <img src="../assets/sorry.webp" />
+              </div>
+            </div>
+            <div class="recommendation_container">
+              <div class="number">2</div>
+              <div class="recommendation_wrapper" v-if="question.uselessLevelFormats.length">
+                <div
+                  class="recommendation_format_label"
+                >You said, that you have problems with some formats. Well, we only can recommend to you switch them to more useful ones. Please, avoid:</div>
+                <div
+                  class="recommendation_format recommendation_format__bad"
+                  v-for="el in question.uselessLevelFormats"
+                  :key="el"
+                >
+                  <div>{{el}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="recommendation_container">
+              <div class="number" v-if="!question.uselessLevelFormats.length">2</div>
+              <div class="number" v-else>3</div>
+              <div class="recommendation_wrapper" v-if="question.nextLevelFormats.length">
+                <div
+                  class="recommendation_format_label"
+                >You can try participation formats of the next level ({{nextParticipationLevel}}):</div>
+                <div
+                  class="recommendation_format"
+                  v-for="el in question.nextLevelFormats"
+                  :key="el"
+                >
+                  <div>{{el}}</div>
+                </div>
+                <div class="recommendation_confidence_message">
+                  <div
+                    class
+                    v-if="question.confidence >= 80"
+                  >You have excellent conditions to move to the next level</div>
+                  <div
+                    class
+                    v-if="question.confidence >= 60 && question.confidence < 80"
+                  >Move to the next level but do not forget about risks</div>
+                  <div
+                    class
+                    v-if="question.confidence >= 45 && question.confidence < 60"
+                  >However, make the choice for yourself whether to move to the next level or not. The conditions for the transition are not ideal.</div>
+                  <div
+                    class
+                    v-if="question.confidence >= 30 && question.confidence < 45"
+                  >However, we do not recommend going to the next level. If you want to increase employee engagement, then, first, spend resources for their training, for their job satisfaction, save up funds to move to the next level, be more ready and open for new.</div>
+                  <div
+                    class
+                    v-if="question.confidence >= 0 && question.confidence < 30"
+                  >Stop, you should not go to the next level now. First, spend resources for employees training, for their job satisfaction, save up funds to move to the next level, be more ready and open for new.</div>
+                </div>
+                <div
+                  class="recommendation_confidence_label"
+                >The confidence to move to the next level is:</div>
+                <div
+                  class="recommendation_confidence_value"
+                  :class="confidenceColorClass"
+                >{{question.confidence}}%</div>
+              </div>
+              <div class="recommendation_wrapper" v-else>
+                <div>None of participation formats for the next level ({{nextParticipationLevel}}) we can recommend.</div>
+                <img src="../assets/sorry.webp" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -139,6 +209,20 @@ export default {
       requirementNames: new Set(),
       levelConfidence: {},
       showLevelConfidence: false,
+      levelDescription: {
+        "No Involvement":
+          "a management style where staff do not receive information or instruction from managers, and are not involved in operational or strategic decision-making.",
+        "Information Participation":
+          "Here, the employees are able to receive information and express their view relating to work and business in general. It is a management style where members/employees are provided with both written and verbal guidance by managers and/or governors, but are not invited or elected (individually or in groups) to contribute to operational or strategic decision-making.",
+        "Consultative Participation":
+          "The employees are consulted on matters related to their work and their welfare. The employees can only express their expectations and advice on related matters. However, the final decision rests with the management. It is a management style where members/employees (individually or in groups) have discussions about (pre-formed) management proposals, but are not invited or elected to participate in the formation of these proposals, or final decisions about their implementation.",
+        "Associative Participation":
+          "It is an extension of Consultative Participation where the management is under obligation to accept and implement the unanimous decisions of the employees. It is a management style where members/employees (individually or in groups) can participate in the development of ideas, and where the managers focus on coaching members/employees to develop their ideas into proposals, and support them during implementation. Managers retain some powers to screen-out weak proposals.",
+        "Administrative Participation":
+          "Here, employees have a greater share in the discharge of managerial functions. The employees are empowered to select the best from the alternative decisions for implementation. It is a management style where any member/employee (individually or in groups) can initiate discussions on operational or strategic issues, arrange and participate in meetings to develop proposals, and exercise both voice and voting power when decisions are made about implementation.",
+        "Decisive Participation":
+          "It is the highest level of participation where the decisions are jointly taken by the employees and the management on the matters related to production, welfare, introduction of change, etc. It is a management style where all of the decisions are taken together with managers and employees. ",
+      },
     };
   },
   props: [
@@ -146,6 +230,30 @@ export default {
     "questionsList",
     "clarifyFormatsQuestions",
   ],
+  computed: {
+    confidenceColorClass() {
+      let res = ""
+      if (!this.question && !this.question.confidence) return res;
+      switch (true) {
+        case this.question.confidence >= 80:
+          res = "recommendation_confidence_message__green";
+          break;
+        case this.question.confidence >= 60 && this.question.confidence < 80:
+          res = "recommendation_confidence_message__lightgreen";
+          break;
+        case this.question.confidence >= 45 && this.question.confidence < 60:
+          res = "recommendation_confidence_message__neutral";
+          break;
+        case this.question.confidence >= 30 && this.question.confidence < 45:
+          res = "recommendation_confidence_message__lightred";
+          break;
+        case this.question.confidence >= 0 && this.question.confidence < 30:
+          res = "recommendation_confidence_message__red";
+          break;
+      }
+      return res;
+    },
+  },
   watch: {
     usedFormatsCheckbox(v) {
       this.usedFormats = Object.keys(this.participationFormatsList).filter(
@@ -180,9 +288,6 @@ export default {
                 ((answer && answer.nextQuestionNumber) ||
                   this.question.questionNumber + 1)
             );
-            if (this.requirementNames.has(this.question.questionName)) {
-              this.requirementNames.add(currentQuestion.questionName)
-            }
           } else if (this.question.type === "number") {
             currentQuestion = this.clarifyFormatsQuestions.find(
               (e) => e.questionNumber === this.question.questionNumber + 1
@@ -369,7 +474,7 @@ export default {
           }
         );
 
-        let str1 = "";
+        let str1 = [];
         let arr1 = [];
         Object.entries(this.participationFormatsList).forEach((el) => {
           const participationLevel = el[1].levels.find(
@@ -380,17 +485,15 @@ export default {
             !this.usedFormats.includes(el[0]) &&
             !removedFormats.includes(el[0])
           ) {
-            str1 += `${el[0]}, `;
+            str1.push(el[0]);
             arr1.push(el[0]);
           }
         });
-        str1 = str1.slice(0, -2);
-        let str2 = "";
+        let str2 = [];
         this.valuelessFormats.forEach((el) => {
-          str2 += `${el}, `;
+          str2.push(el);
         });
-        str2 = str2.slice(0, -2);
-        let str3 = "";
+        let str3 = [];
         Object.entries(this.participationFormatsList).forEach((el) => {
           const participationLevel = el[1].levels.find(
             (e) => e.levelName === this.nextParticipationLevel
@@ -401,10 +504,9 @@ export default {
             !arr1.includes(el[0]) &&
             !removedFormats.includes(el[0])
           ) {
-            str3 += `${el[0]}, `;
+            str3.push(el[0]);
           }
         });
-        str3 = str3.slice(0, -2);
         let confidence = 0;
         let weights = 0;
         Object.values(this.questionsList).forEach((el, i) => {
@@ -421,11 +523,10 @@ export default {
         confidence = (confidence / weights) * 100;
         this.question = {
           text: "Our recommendation to you",
-          label1: "Try these formats (your level): " + (str1 || "None"),
-          label2: "Don't use these formats: " + (str2 || "None"),
-          label3:
-            `Confidence - ${confidence.toFixed()}% -> Try these formats (next level): ` +
-            (str3 || "None"),
+          curLevelFormats: str1,
+          uselessLevelFormats: str2,
+          nextLevelFormats: str3,
+          confidence: confidence.toFixed(),
         };
       }
     },
@@ -471,6 +572,17 @@ export default {
             ...this.requirementNames,
             ...Object.keys(el[1].requirements),
           ]);
+          Object.values(el[1].requirements).forEach((el) => {
+            if (!el.data) return;
+            Object.values(el.data).forEach((e) => {
+              if (typeof e === "object") {
+                this.requirementNames = new Set([
+                  ...this.requirementNames,
+                  ...Object.keys(e),
+                ]);
+              }
+            });
+          });
         });
       } else if (this.page === 4) {
         this.page = 3;
@@ -508,6 +620,7 @@ export default {
 .main {
   padding: 24px;
   font-size: 1.2rem;
+  overflow: hidden;
 }
 .content {
   min-height: calc(100% - 70px);
@@ -578,7 +691,7 @@ input {
 .label {
   text-align: center;
   font-size: 3rem;
-  padding-top: 48px;
+  padding-top: 24px;
   color: #4169e1;
   cursor: pointer;
 }
@@ -598,5 +711,81 @@ input {
   width: fit-content;
   margin: auto;
   padding-top: 12px;
+}
+.level_description {
+  color: gray;
+  width: 600px;
+  text-align: justify;
+  padding-top: 12px;
+  margin: auto;
+}
+.recommendation_wrapper {
+  text-align: center;
+  width: 80%;
+  margin: auto;
+}
+.recommendation_wrapper img {
+  width: 320px;
+  margin-top: 24px;
+}
+.recommendation_container {
+  position: relative;
+  margin-bottom: 84px;
+}
+.number {
+  border: 1px solid #4169e1;
+  line-height: 24px;
+  width: 24px;
+  position: absolute;
+  text-align: center;
+  padding: 40px;
+  border-radius: 50%;
+  color: #4169e1;
+  left: -40px;
+  top: -68px;
+  font-size: 42px;
+}
+.recommendation_format {
+  margin-bottom: 12px;
+  text-align: center;
+  color: #4169e1;
+  font-size: 2rem;
+}
+.recommendation_format__bad {
+  color: #ff6262;
+}
+.recommendation_format_label {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.recommendation_confidence_message {
+  text-align: center;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+.recommendation_confidence_value {
+  text-align: center;
+  text-align: center;
+  color: #4169e1;
+  font-size: 6rem;
+}
+.recommendation_confidence_label {
+  text-align: center;
+  margin-bottom: 12px;
+}
+.recommendation_confidence_message__green {
+  color: #00c300;
+}
+.recommendation_confidence_message__lightgreen {
+  color: #4e884e;
+}
+.recommendation_confidence_message__neutral {
+  color: #daa613;
+}
+.recommendation_confidence_message__lightred {
+  color: #ff8484;
+}
+.recommendation_confidence_message__red {
+  color: #e40000;
 }
 </style>
