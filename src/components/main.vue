@@ -130,6 +130,18 @@
                 >
                   <div>{{el}}</div>
                 </div>
+                <div
+                  class="recommendation_confidence_label"
+                >The confidence to move to the next level is:</div>
+                <div>
+                  <div
+                    class="recommendation_confidence_value"
+                    :class="confidenceColorClass"
+                  >{{question.confidence}}%</div>
+                  <div>
+                    <div class="sprite" :style="`background-position: -${spriteShift * 800/5}px 0`"></div>
+                  </div>
+                </div>
                 <div class="recommendation_confidence_message">
                   <div
                     class
@@ -142,23 +154,16 @@
                   <div
                     class
                     v-if="question.confidence >= 45 && question.confidence < 60"
-                  >However, make the choice for yourself whether to move to the next level or not. The conditions for the transition are not ideal.</div>
+                  >Make the choice for yourself whether to move to the next level or not. The conditions for the transition are not ideal.</div>
                   <div
                     class
                     v-if="question.confidence >= 30 && question.confidence < 45"
-                  >However, we do not recommend going to the next level. If you want to increase employee engagement, then, first, spend resources for their training, for their job satisfaction, save up funds to move to the next level, be more ready and open for new.</div>
+                  >We do not recommend going to the next level. If you want to increase employee engagement, then, first, spend resources for their training, for their job satisfaction, save up funds to move to the next level, be more ready and open for new.</div>
                   <div
                     class
                     v-if="question.confidence >= 0 && question.confidence < 30"
                   >Stop, you should not go to the next level now. First, spend resources for employees training, for their job satisfaction, save up funds to move to the next level, be more ready and open for new.</div>
                 </div>
-                <div
-                  class="recommendation_confidence_label"
-                >The confidence to move to the next level is:</div>
-                <div
-                  class="recommendation_confidence_value"
-                  :class="confidenceColorClass"
-                >{{question.confidence}}%</div>
               </div>
               <div class="recommendation_wrapper" v-else>
                 <div>None of participation formats for the next level ({{nextParticipationLevel}}) we can recommend.</div>
@@ -231,8 +236,30 @@ export default {
     "clarifyFormatsQuestions",
   ],
   computed: {
+    spriteShift() {
+      let res = 0;
+      if (!this.question && !this.question.confidence) return res;
+      switch (true) {
+        case this.question.confidence >= 80:
+          res = 0;
+          break;
+        case this.question.confidence >= 60 && this.question.confidence < 80:
+          res = 1;
+          break;
+        case this.question.confidence >= 45 && this.question.confidence < 60:
+          res = 2;
+          break;
+        case this.question.confidence >= 30 && this.question.confidence < 45:
+          res = 3;
+          break;
+        case this.question.confidence >= 0 && this.question.confidence < 30:
+          res = 4;
+          break;
+      }
+      return res;
+    },
     confidenceColorClass() {
-      let res = ""
+      let res = "";
       if (!this.question && !this.question.confidence) return res;
       switch (true) {
         case this.question.confidence >= 80:
@@ -760,18 +787,18 @@ input {
 }
 .recommendation_confidence_message {
   text-align: center;
-  margin-top: 24px;
-  margin-bottom: 12px;
+  padding-bottom: 24px;
 }
 .recommendation_confidence_value {
   text-align: center;
   text-align: center;
   color: #4169e1;
-  font-size: 6rem;
+  font-size: 4rem;
+  margin: 12px;
 }
 .recommendation_confidence_label {
   text-align: center;
-  margin-bottom: 12px;
+  margin-top: 48px;
 }
 .recommendation_confidence_message__green {
   color: #00c300;
@@ -787,5 +814,11 @@ input {
 }
 .recommendation_confidence_message__red {
   color: #e40000;
+}
+.sprite { 
+    height: 153px;
+    margin: 0 auto 12px auto;
+    width: calc(800px / 5);
+    background: url("../assets/mood.png");
 }
 </style>
