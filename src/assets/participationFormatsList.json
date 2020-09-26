@@ -74,6 +74,18 @@
             "Yes": true,
             "No": false
           }
+        },
+        "managersTrainedToLead": {
+          "type": "condition",
+          "data": {
+            "Yes": true,
+            "No": {
+              "canYouTrainManagersToLead": {
+                "Yes": true,
+                "No": false
+              }
+            }
+          }
         }
       },
       "levels": [
@@ -104,16 +116,28 @@
         "sizeOfCompany": {
           "type": "condition",
           "data": {
-            "Small": true,
-            "Medium": true,
-            "Large": false
+            "Small: 1 - 49 workers": true,
+            "Medium: 50 - 499 workers": true,
+            "Large: 500+ workers": false
+          }
+        },
+        "managersTrainedToLead": {
+          "type": "condition",
+          "data": {
+            "Yes": true,
+            "No": {
+              "canYouTrainManagersToLead": {
+                "Yes": true,
+                "No": false
+              }
+            }
           }
         }
       },
       "levels": [
         {
           "levelName": "Consultative Participation",
-          "weight": 1
+          "weight": 1.1
         }
       ]
     },
@@ -124,7 +148,7 @@
       "levels": [
         {
           "levelName": "Consultative Participation",
-          "weight": 1
+          "weight": 1.1
         },
         {
           "levelName": "Associative Participation",
@@ -142,12 +166,23 @@
     },
     "Working Groups": {
       "requirements": {
-        "_comment": "ADD REQUIREMENTS"
+        "managersTrainedToLead": {
+          "type": "condition",
+          "data": {
+            "Yes": true,
+            "No": {
+              "canYouTrainManagersToLead": {
+                "Yes": true,
+                "No": false
+              }
+            }
+          }
+        }
       },
       "levels": [
         {
           "levelName": "Associative Participation",
-          "weight": 1
+          "weight": 1.2
         },
         {
           "levelName": "Administrative Participation",
@@ -173,27 +208,65 @@
       "levels": [
         {
           "levelName": "Associative Participation",
-          "weight": 0.7
+          "weight": 1.2
+        },
+        {
+          "levelName": "Administrative Participation",
+          "weight": 1
         }
       ]
     },
     "Quality Circles": {
       "requirements": {
-        "_comment": "ADD REQUIREMENTS"
+        "managersTrainedToLead": {
+          "type": "condition",
+          "data": {
+            "Yes": true,
+            "No": {
+              "canYouTrainManagersToLead": {
+                "Yes": true,
+                "No": false
+              }
+            }
+          }
+        }
       },
-      "levels": []
+      "levels": [
+        {
+          "levelName": "Associative Participation",
+          "weight": 1.2
+        },
+        {
+          "levelName": "Administrative Participation",
+          "weight": 1.3
+        }
+      ]
     },
     "Suggestion Schemes": {
       "requirements": {
-        "_comment": "ADD REQUIREMENTS"
+        "managersTrainedToLead": {
+          "type": "condition",
+          "data": {
+            "Yes": true,
+            "No": {
+              "canYouTrainManagersToLead": {
+                "Yes": true,
+                "No": false
+              }
+            }
+          }
+        }
       },
-      "levels": []
-    },
-    "Total Quality Management": {
-      "requirements": {
-        "_comment": "ADD REQUIREMENTS"
-      },
-      "levels": []
+      "levels": [
+        {
+          "levelName": "Associative Participation",
+          "weight": 1.2
+        },
+        {
+          "levelName": "Administrative Participation",
+          "weight": 1.3
+        }
+      ]
     },
     "Voting": {
       "requirements": {
@@ -201,19 +274,49 @@
       },
       "levels": []
     },
-    "Peer rating": {
+    "Peer Rating": {
       "requirements": {
         "_comment": "ADD REQUIREMENTS"
       },
-      "levels": []
+      "levels": [
+        {
+          "levelName": "Consultative Participation",
+          "weight": 1.1
+        },
+        {
+          "levelName": "Associative Participation",
+          "weight": 1
+        },
+        {
+          "levelName": "Administrative Participation",
+          "weight": 0.8
+        },
+        {
+          "levelName": "Decisive Participation",
+          "weight": 0.8
+        }
+      ]
     },
     "Business games": {
       "requirements": {
         "_comment": "ADD REQUIREMENTS"
       },
-      "levels": []
+      "levels": [
+        {
+          "levelName": "Consultative Participation",
+          "weight": 1.1
+        },
+        {
+          "levelName": "Associative Participation",
+          "weight": 1.1
+        },
+        {
+          "levelName": "Administrative Participation",
+          "weight": 1.1
+        }
+      ]
     },
-    "Job redesign": {
+    "Job Redesign": {
       "requirements": {
         "_comment": "ADD REQUIREMENTS"
       },
@@ -225,17 +328,53 @@
       },
       "levels": []
     },
-    "Autonomous work group": {
+    "Autonomous Work Group": {
       "requirements": {
-        "_comment": "ADD REQUIREMENTS"
+        "managersTrainedToLead": {
+          "type": "condition",
+          "data": {
+            "Yes": true,
+            "No": {
+              "canYouTrainManagersToLead": {
+                "Yes": true,
+                "No": false
+              }
+            }
+          }
+        }
       },
-      "levels": []
+      "levels": [
+        {
+          "levelName": "Decisive Participation",
+          "weight": 1.4
+        }
+      ]
     },
-    "Team working": {
+    "Team Working": {
       "requirements": {
-        "_comment": "ADD REQUIREMENTS"
+        "managersTrainedToLead": {
+          "type": "condition",
+          "data": {
+            "Yes": true,
+            "No": {
+              "canYouTrainManagersToLead": {
+                "Yes": true,
+                "No": false
+              }
+            }
+          }
+        }
       },
-      "levels": []
+      "levels": [
+        {
+          "levelName": "Associative Participation",
+          "weight": 1.2
+        },
+        {
+          "levelName": "Administrative Participation",
+          "weight": 1.2
+        }
+      ]
     }
   }
 }

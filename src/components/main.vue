@@ -817,7 +817,7 @@ input {
 }
 .sprite { 
     height: 153px;
-    margin: 0 auto 12px auto;
+    margin: 24px auto 12px auto;
     width: calc(800px / 5);
     background: url("../assets/mood.png");
 }

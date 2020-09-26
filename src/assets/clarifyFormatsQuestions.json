@@ -6,19 +6,17 @@
       "isFirstQuestion": true,
       "questionNumber": 1,
       "type": "radiobuttons",
-      "_comment": "radiobuttons - choice between options, number - input a number using the keyboard",
       "answers": [
         {
-          "label": "Small",
-          "nextQuestionNumber": null,
-          "_comment": "null - next on the list. N - N-th question. 'Finish' - it was last question"
-        },
-        {
-          "label": "Medium",
+          "label": "Small: 1 - 49 workers",
           "nextQuestionNumber": null
         },
         {
-          "label": "Large",
+          "label": "Medium: 50 - 499 workers",
+          "nextQuestionNumber": null
+        },
+        {
+          "label": "Large: 500+ workers",
           "nextQuestionNumber": null
         }
       ]
